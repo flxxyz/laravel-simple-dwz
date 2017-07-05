@@ -36,22 +36,28 @@
         var uri = $('#uri');
 
         if(!uri.val()) {
-            $('#res').html('请填入需要生成的链接');
+            resHTML('请填入需要生成的链接');
             return;
         }
 
         var match = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/;
         if(!match.test(uri.val())) {
-            $('#res').html('请填入正确的链接');
+            resHTML('请填入正确的链接');
             return;
         }
 
-        $('#res').html('');
+        resHTML('');
 
         var data = $('form').serialize();
         $.post('{{ url('api/produce') }}', data, function (result) {
             console.log(result);
+            var data = result.data;
+            resHTML(data.uri);
             isRequest = false;
         })
     });
+
+    var resHTML = function (el) {
+        $('#res').html(el);
+    }
 </script>

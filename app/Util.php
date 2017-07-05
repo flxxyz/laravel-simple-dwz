@@ -37,4 +37,17 @@ class Util
     public static function getHost() {
         return 'http://' . $_SERVER['HTTP_HOST'] . '/';
     }
+
+    public function gethttp($uri)
+    {
+        $curl = new Curl();
+        $curl->get($uri);
+
+        if ($curl->error) {
+            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
+        } else {
+            //echo 'Response:' . "\n";
+            return $curl->response;
+        }
+    }
 }

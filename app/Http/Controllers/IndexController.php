@@ -30,13 +30,14 @@ class IndexController extends Controller
     }
 
     public function produce(Request $request) {
+        // 构造回调json
         $response = [
             'data' => [
                 'uesr' => '',
                 'uri' => '',
-                'create_at' => ''
+                'created_at' => ''
             ],
-            'success' => 0,
+            'statu' => 100,
             'message' => ''
         ];
 
@@ -45,20 +46,34 @@ class IndexController extends Controller
             $hash = base_convert(abs(crc32($uri)), 10, 32);
             $ip = Util::getClientIP();
 
+            // 存在hash返回已有hash信息
+            $link = Link::where('hash', '=', $hash)->get();
+            //var_dump(count($link));exit;
+
+            if(count($link) != 0) {
+                $response['statu'] = 200;
+                $response['message'] = 'hash exist';
+                //$response['data']['created_at'] = $link[0]->created_at;
+                $response['data']['uri'] = Util::getHost() . $hash;
+                return response()->json($response);
+            }
+
             $data['hash'] = $hash;
             $data['uri'] = $uri;
             $data['ip'] = $ip;
 
+            // 创建新hash
             if ($row = Link::create($data)) {
                 //echo $row;
                 $response['uri'] = Util::getHost() . $row->hash;
-                $response['success'] = 1;
+                $response['statu'] = 200;
+                $response['message'] = 'success';
                 $response['data']['create_at'] = $row->created_at;
                 //Session::flash('success', '添加成功');
                 return response()->json($response);
             } else {
                 $response['uri'] = Util::getHost();
-                $response['message'] = Util::getHost();
+                $response['message'] = 'error';
                 return response()->json($response);
             }
         }else {
