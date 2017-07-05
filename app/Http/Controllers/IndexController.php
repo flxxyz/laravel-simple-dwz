@@ -33,7 +33,7 @@ class IndexController extends Controller
         $response = [
             'data' => [
                 'uesr' => '',
-                'uri' => null,
+                'uri' => '',
                 'create_at' => ''
             ],
             'success' => 0,
