@@ -12,5 +12,11 @@
 */
 
 Route::get('/', 'IndexController@index');
-Route::get('/detail', 'ErrorController@detail');
-Route::get('/detail/{id}', 'IndexController@detail');
+
+Route::get('/{param}', 'IndexController@uri');
+
+Route::prefix('api')
+    ->any('produce', 'IndexController@produce')
+    ->middleware('api');
+
+
