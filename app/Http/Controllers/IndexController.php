@@ -66,7 +66,7 @@ class IndexController extends Controller
                 $response['data']['uri'] = Util::getHost() . $row->hash;
                 $response['statu'] = 200;
                 $response['message'] = 'success';
-                $response['data']['create_at'] = $row->created_at;
+                $response['data']['created_at'] = $row->created_at;
                 //Session::flash('success', '添加成功');
                 return response()->json($response);
             } else {
