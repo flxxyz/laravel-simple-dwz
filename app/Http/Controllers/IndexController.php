@@ -48,12 +48,10 @@ class IndexController extends Controller
 
             // 存在hash返回已有hash信息
             $link = Link::where('hash', '=', $hash)->get();
-            //var_dump(count($link));exit;
-
             if(count($link) != 0) {
                 $response['statu'] = 200;
                 $response['message'] = 'hash exist';
-                //$response['data']['created_at'] = $link[0]->created_at;
+                $response['data']['created_at'] = $link[0]->created_at;
                 $response['data']['uri'] = Util::getHost() . $hash;
                 return response()->json($response);
             }
@@ -65,19 +63,19 @@ class IndexController extends Controller
             // 创建新hash
             if ($row = Link::create($data)) {
                 //echo $row;
-                $response['uri'] = Util::getHost() . $row->hash;
+                $response['data']['uri'] = Util::getHost() . $row->hash;
                 $response['statu'] = 200;
                 $response['message'] = 'success';
                 $response['data']['create_at'] = $row->created_at;
                 //Session::flash('success', '添加成功');
                 return response()->json($response);
             } else {
-                $response['uri'] = Util::getHost();
+                $response['data']['uri'] = Util::getHost();
                 $response['message'] = 'error';
                 return response()->json($response);
             }
         }else {
-            $response['uri'] = Util::getHost();
+            $response['data']['uri'] = Util::getHost();
             return response()->json($response);
         }
     }
