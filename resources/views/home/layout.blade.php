@@ -60,7 +60,7 @@
                         <div>
                             <p class="heading">生成</p>
                             <p class="title">
-                                <a href="{{ url('top/produce') }}">@yield('sc', 0)</a>
+                                <a href="{{ url('top/new') }}">@yield('new', 0)</a>
                             </p>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <div>
                             <p class="heading">点击</p>
                             <p class="title">
-                                <a href="{{ url('top/click') }}">@yield('dj', 0)</a>
+                                <a href="{{ url('top/click') }}">@yield('click', 0)</a>
                             </p>
                         </div>
                     </div>
@@ -76,14 +76,14 @@
                         <div>
                             <p class="heading">查看</p>
                             <p class="title">
-                                <a href="{{ url('top/show') }}">@yield('ck', 0)</a>
+                                <a href="{{ url('top/show') }}">@yield('show', 0)</a>
                             </p>
                         </div>
                     </div>
                 </nav>
                 <div class="has-text-right">
                     <p>
-                        <strong>use licensed <a href="http://www.wtfpl.net/" title="要tm什么身份证">WTFPL</a></strong> .
+                        <strong>use licensed <a href="http://test.dev/1lv6dbr" title="要tm什么身份证" target="_blank">WTFPL</a></strong> .
                     </p>
                 </div>
             </div>

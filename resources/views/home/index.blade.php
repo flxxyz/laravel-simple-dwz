@@ -1,13 +1,13 @@
 @extends('home.layout')
 
-@section('sc')
-    {{ $data['sc'] }}
+@section('new')
+    {{ $data['new'] }}
 @stop
 
-@section('dj')
-    {{ $data['dj'] }}
+@section('click')
+    {{ $data['click'] }}
 @stop
 
-@section('ck')
-    {{ $data['ck'] }}
+@section('show')
+    {{ $data['show'] }}
 @stop

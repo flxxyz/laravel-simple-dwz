@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Util;
 use App\Link;
 use App\Show;
+use Yangqi\Htmldom\Htmldom;
 
 class ApiController extends Controller
 {
@@ -68,6 +69,47 @@ class ApiController extends Controller
         }else {
             $response['data']['uri'] = Util::getHost();
             return response()->json($response);
+        }
+    }
+
+
+    public function new()
+    {
+        $data = [
+            'message' => '',
+            'statu' => 100,
+            'result' => [
+                'count' => 0
+            ]
+        ];
+        $link = Link::orderBy('id', 'desc')->get();
+        $count = count($link);
+
+        if ($count != 0) {
+            foreach ($link as $key => $item) {
+                //dd($item->uri);
+                $uri = $item->uri;
+                $html = Util::getHttp($uri);
+                $htmlDom = new Htmldom();
+                $htmlDom->load($html);
+                $title = $htmlDom->find('title', 0)->innertext;
+                /*echo '<pre>';
+                var_dump($title->innertext);*/
+                if (empty($title)) {
+                    $title = $uri;
+                }
+                $data['result'][] = [
+                    'created_at' => $item->created_at,
+                    'title' => $title,
+                    'uri' => Util::getHost() . $item->hash
+                ];
+            }
+            $data['result']['count'] = $count;
+            //dd($data);
+            return response()->json($data);
+        } else {
+            $data['message'] = '暂时没有短链接...';
+            return response()->json($data);
         }
     }
 }

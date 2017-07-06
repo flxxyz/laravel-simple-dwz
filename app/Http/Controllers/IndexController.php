@@ -16,9 +16,9 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $data['sc'] = Link::count();
-        $data['dj'] = Show::pluck('click')->sum();
-        $data['ck'] = Show::pluck('show')->sum();
+        $data['new'] = Link::count();
+        $data['click'] = Show::pluck('click')->sum();
+        $data['show'] = Show::pluck('show')->sum();
         //dd($data);
         return view('home.index', [
             'data' => $data
@@ -34,17 +34,17 @@ class IndexController extends Controller
     public function uri($param)
     {
         $link = Link::where('hash', $param)->get();
-        if(count($link) != 0) {
+        if (count($link) != 0) {
             $show = Show::find($link[0]->id);
             $show->increment('click');  // 点击+1
 
             $uri = $link[0]->uri;
             //dd(Util::isAccess($uri));
 
-            if(Util::isAccess($uri)) {
+            if (Util::isAccess($uri)) {
                 $show->increment('show');  // 点击+1
                 return redirect('/')->setTargetUrl($uri);
-            }else {
+            } else {
                 // 可以预设友好页面，提示用户当前网址无法访问
                 return redirect('/')->setTargetUrl($uri);
             }

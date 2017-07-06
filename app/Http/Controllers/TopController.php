@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Util;
+use App\Link;
+
 class TopController extends Controller
 {
-    public function produce()
+    public function new()
     {
-        return '生成新排行';
+        return '最新生成短链接';
+
     }
 
     public function click()

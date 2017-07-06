@@ -40,7 +40,8 @@ class Util
      *
      * @return string
      */
-    public static function getHost() {
+    public static function getHost()
+    {
         return 'http://' . $_SERVER['HTTP_HOST'] . '/';
     }
 
@@ -60,6 +61,20 @@ class Util
             return false;
         } else {
             return true;
+        }
+    }
+
+    public static function getHttp($uri)
+    {
+        $curl = new Curl();
+        $curl->setUserAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36');
+        $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);  // 关闭检测服务器证书是否由正规浏览器认证颁发
+        $curl->get($uri);
+
+        if ($curl->error) {
+            return false;
+        } else {
+            return $curl->response;
         }
     }
 }
