@@ -8,7 +8,7 @@ class Show extends Model
 {
     protected $table = 'shows';
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'link_id';
 
     protected $fillable = ['link_id'];
 

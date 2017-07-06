@@ -8,6 +8,7 @@
 
 namespace App;
 
+use Curl\Curl;
 
 class Util
 {
@@ -34,20 +35,31 @@ class Util
         return ($ip);
     }
 
+    /**
+     * 获取本站域名
+     *
+     * @return string
+     */
     public static function getHost() {
         return 'http://' . $_SERVER['HTTP_HOST'] . '/';
     }
 
-    public function gethttp($uri)
+    /**
+     * 检查网址可访问状态，筛选访问出现问题的网址
+     *
+     * @param $uri
+     * @return bool
+     */
+    public static function isAccess($uri)
     {
         $curl = new Curl();
+        $curl->setReferrer('https://ba1du.com');
         $curl->get($uri);
 
         if ($curl->error) {
-            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage . "\n";
+            return false;
         } else {
-            //echo 'Response:' . "\n";
-            return $curl->response;
+            return true;
         }
     }
 }

@@ -16,7 +16,7 @@ Route::get('/', 'IndexController@index');
 Route::get('/{param}', 'IndexController@uri');
 
 Route::prefix('api')
-    ->any('produce', 'IndexController@produce')
+    ->any('produce', 'ApiController@produce')
     ->middleware('api');
 
 

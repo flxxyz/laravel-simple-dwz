@@ -9,79 +9,48 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
+    /**
+     * 首页
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        $link = Link::all();
-        //dd($link);
+        $data['sc'] = Link::count();
+        $data['dj'] = Show::pluck('click')->sum();
+        $data['ck'] = Show::pluck('show')->sum();
+        //dd($data);
         return view('home.index', [
-            'data' => $link
+            'data' => $data
         ]);
     }
 
     /**
+     * 短网址跳转操作
+     *
      * @param $param
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function uri($param)
     {
+        $link = Link::where('hash', $param)->get();
+        if(count($link) != 0) {
+            $show = Show::find($link[0]->id);
+            $show->increment('click');  // 点击+1
 
-        return view('home.detail', [
-            'id' => $param
-        ]);
-    }
+            $uri = $link[0]->uri;
+            //dd(Util::isAccess($uri));
 
-    public function produce(Request $request) {
-        // 构造回调json
-        $response = [
-            'data' => [
-                'uesr' => '',
-                'uri' => '',
-                'created_at' => ''
-            ],
-            'statu' => 100,
-            'message' => ''
-        ];
-
-        if($request->isMethod('POST')) {
-            $uri = $request->get('uri');
-            $hash = base_convert(abs(crc32($uri)), 10, 32);
-            $ip = Util::getClientIP();
-
-            // 存在hash返回已有hash信息
-            $link = Link::where('hash', '=', $hash)->get();
-            if(count($link) != 0) {
-                $response['statu'] = 200;
-                $response['message'] = 'hash exist';
-                $response['data']['created_at'] = $link[0]->created_at;
-                $response['data']['uri'] = Util::getHost() . $hash;
-                return response()->json($response);
+            if(Util::isAccess($uri)) {
+                $show->increment('show');  // 点击+1
+                return redirect('/')->setTargetUrl($uri);
+            }else {
+                // 可以预设友好页面，提示用户当前网址无法访问
+                return redirect('/')->setTargetUrl($uri);
             }
-
-            $data['hash'] = $hash;
-            $data['uri'] = $uri;
-            $data['ip'] = $ip;
-
-            // 创建新hash
-            if ($row = Link::create($data)) {
-                //echo $row;
-                $show = new Show();
-                if($id = $show->insertGetId(['link_id' => $row->id])) {
-                    $show->where('id', $id)->increment('produce');
-                }
-                $response['data']['uri'] = Util::getHost() . $row->hash;
-                $response['statu'] = 200;
-                $response['message'] = 'success';
-                $response['data']['created_at'] = $row->created_at;
-                //Session::flash('success', '添加成功');
-                return response()->json($response);
-            } else {
-                $response['data']['uri'] = Util::getHost();
-                $response['message'] = 'error';
-                return response()->json($response);
-            }
-        }else {
-            $response['data']['uri'] = Util::getHost();
-            return response()->json($response);
         }
+
+        return view('error.404');
     }
+
 }
