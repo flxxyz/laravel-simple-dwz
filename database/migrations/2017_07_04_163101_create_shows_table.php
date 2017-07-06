@@ -18,6 +18,7 @@ class CreateShowsTable extends Migration
             $table->integer('link_id')->unsigned();
             $table->integer('click')->default(0);  // 点击数
             $table->integer('show')->default(0);  // 成功跳转数
+            $table->integer('produce')->default(0);  // 生成数
             $table->string('created_at',20)->default(0);
             $table->string('updated_at',20)->default(0);
 

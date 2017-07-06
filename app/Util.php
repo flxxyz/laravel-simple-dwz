@@ -30,7 +30,7 @@ class Util
                     if (isset ($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], "unknown"))
                         $ip = $_SERVER['REMOTE_ADDR'];
                     else
-                        $ip = "unknown";
+                        $ip = '';
         return ($ip);
     }
 

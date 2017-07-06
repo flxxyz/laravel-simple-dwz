@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Link;
+use App\Show;
 use App\Util;
 use Illuminate\Http\Request;
 
@@ -63,6 +64,10 @@ class IndexController extends Controller
             // 创建新hash
             if ($row = Link::create($data)) {
                 //echo $row;
+                $show = new Show();
+                if($id = $show->insertGetId(['link_id' => $row->id])) {
+                    $show->where('id', $id)->increment('produce');
+                }
                 $response['data']['uri'] = Util::getHost() . $row->hash;
                 $response['statu'] = 200;
                 $response['message'] = 'success';
