@@ -19,4 +19,8 @@ Route::prefix('api')
     ->any('produce', 'ApiController@produce')
     ->middleware('api');
 
+Route::prefix('top')->get('produce', 'TopController@produce');
+Route::prefix('top')->get('click', 'TopController@click');
+Route::prefix('top')->get('show', 'TopController@show');
+
 

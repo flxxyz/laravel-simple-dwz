@@ -60,7 +60,7 @@
                         <div>
                             <p class="heading">生成</p>
                             <p class="title">
-                                <a href="{{  }}"@yield('sc', 0)></a>
+                                <a href="{{ url('top/produce') }}">@yield('sc', 0)</a>
                             </p>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <div>
                             <p class="heading">点击</p>
                             <p class="title">
-                                <a href="{{  }}">@yield('dj', 0)</a>
+                                <a href="{{ url('top/click') }}">@yield('dj', 0)</a>
                             </p>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         <div>
                             <p class="heading">查看</p>
                             <p class="title">
-                                <a href="{{  }}">@yield('ck', 0)</a>
+                                <a href="{{ url('top/show') }}">@yield('ck', 0)</a>
                             </p>
                         </div>
                     </div>
