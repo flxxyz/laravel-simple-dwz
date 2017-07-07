@@ -16,6 +16,7 @@ class CreateTopNewsTable extends Migration
         Schema::create('top_news', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('link_id')->unsigned();
+            $table->string('title', '255')->default('...');
             $table->string('created_at',20)->default(0);
             $table->string('updated_at',20)->default(0);
         });
