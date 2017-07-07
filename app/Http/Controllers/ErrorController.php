@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class ErrorController extends Controller
 {
-    public function detail()
+    public function index()
     {
-        return view('error.detail');
+        return view('error.404');
     }
 }

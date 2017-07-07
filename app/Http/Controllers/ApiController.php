@@ -79,7 +79,9 @@ class ApiController extends Controller
             'message' => '',
             'statu' => 100,
             'result' => [
-                'count' => 0
+                'data' => [],
+                'count' => 0,
+                'query_time' => time()
             ]
         ];
         $link = Link::orderBy('id', 'desc')->get();
@@ -89,23 +91,25 @@ class ApiController extends Controller
             foreach ($link as $key => $item) {
                 //dd($item->uri);
                 $uri = $item->uri;
+                ob_start();
                 $html = Util::getHttp($uri);
+                ob_end_clean();
                 $htmlDom = new Htmldom();
                 $htmlDom->load($html);
                 $title = $htmlDom->find('title', 0)->innertext;
-                /*echo '<pre>';
-                var_dump($title->innertext);*/
+
                 if (empty($title)) {
                     $title = $uri;
                 }
-                $data['result'][] = [
-                    'created_at' => $item->created_at,
+                $data['result']['data'][] = [
+                    'created_at' => $item->created_at->toDateTimeString(),
                     'title' => $title,
                     'uri' => Util::getHost() . $item->hash
                 ];
             }
             $data['result']['count'] = $count;
             //dd($data);
+            $data['message'] = 'Query Success';
             return response()->json($data);
         } else {
             $data['message'] = '暂时没有短链接...';
