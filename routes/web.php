@@ -20,15 +20,15 @@ Route::prefix('top')->get('click', 'TopController@click');
 Route::prefix('top')->get('show', 'TopController@show');
 
 
-Route::prefix('api')
+Route::prefix('api/top')
     ->any('produce', 'ApiController@produce')
     ->middleware('api');
-Route::prefix('api')
+Route::prefix('api/top')
     ->any('new', 'ApiController@new')
     ->middleware('api');
-Route::prefix('api')
+Route::prefix('api/top')
     ->any('click', 'ApiController@click')
     ->middleware('api');
-Route::prefix('api')
+Route::prefix('api/top')
     ->any('show', 'ApiController@show')
     ->middleware('api');
