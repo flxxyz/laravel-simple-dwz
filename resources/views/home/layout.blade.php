@@ -83,7 +83,7 @@
                 </nav>
                 <div class="has-text-right">
                     <p>
-                        <strong>use licensed <a href="http://test.dev/1lv6dbr" title="要tm什么身份证" target="_blank">WTFPL</a></strong> .
+                        <strong>use licensed <a href="http://dwz.flxxyz.com/1lv6dbr" title="要tm什么身份证" target="_blank">WTFPL</a></strong> .
                     </p>
                 </div>
             </div>
