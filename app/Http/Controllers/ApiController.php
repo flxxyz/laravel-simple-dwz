@@ -101,7 +101,7 @@ class ApiController extends Controller
                     $title = $uri;
                 }
                 $data['result']['data'][] = [
-                    'created_at' => $item->created_at->toDateString(),
+                    'created_at' => $item->created_at->toDateTimeString(),
                     'title' => $title,
                     'uri' => Util::getHost() . $item->hash
                 ];
