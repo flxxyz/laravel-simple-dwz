@@ -92,18 +92,14 @@ class ApiController extends Controller
         }
     }
 
-
+    /**
+     * Top的最新
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function new()
     {
-        $data = [
-            'message' => '',
-            'statu' => 100,
-            'result' => [
-                'data' => [],
-                'count' => 0,
-                'query_time' => time()
-            ]
-        ];
+        $data = $this->JSON();
 
         $topNew = TopNew::orderBy('id', 'desc')->take(10)->get();
         $count = count($topNew);
@@ -118,6 +114,7 @@ class ApiController extends Controller
                     'uri' => Util::getHost() . Link::find($item->link_id)->hash
                 ];
             }
+            $data['type'] = 'new';
             $data['statu'] = 200;
             $data['result']['count'] = $count;
             $data['message'] = 'Query Success';
@@ -126,5 +123,77 @@ class ApiController extends Controller
             $data['message'] = '暂时没有短链接...';
             return response()->json($data);
         }
+    }
+
+    public function click()
+    {
+        $data = $this->JSON();
+
+        $show = Show::orderBy('click', 'desc')->take(10)->get();
+        $count = count($show);
+
+        if ($count != 0) {
+            foreach ($show as $key => $item) {
+                $data['result']['data'][] = [
+                    'created_at' => $item->created_at->toDateTimeString(),
+                    'title' => TopNew::find($item->link_id)['title'],
+                    'uri' => Util::getHost() . Link::find($item->link_id)->hash,
+                    'num' => $item->click
+                ];
+            }
+            $data['type'] = 'click';
+            $data['statu'] = 200;
+            $data['result']['count'] = $count;
+            $data['message'] = 'Query Success';
+            return response()->json($data);
+        } else {
+            $data['message'] = '暂时没有短链接...';
+            return response()->json($data);
+        }
+    }
+
+    public function show()
+    {
+        $data = $this->JSON();
+
+        $show = Show::orderBy('show', 'desc')->take(10)->get();
+        $count = count($show);
+
+        if ($count != 0) {
+            foreach ($show as $key => $item) {
+                $data['result']['data'][] = [
+                    'created_at' => $item->created_at->toDateTimeString(),
+                    'title' => TopNew::find($item->link_id)['title'],
+                    'uri' => Util::getHost() . Link::find($item->link_id)->hash,
+                    'num' => $item->show
+                ];
+            }
+            $data['type'] = 'show';
+            $data['statu'] = 200;
+            $data['result']['count'] = $count;
+            $data['message'] = 'Query Success';
+            return response()->json($data);
+        } else {
+            $data['message'] = '暂时没有短链接...';
+            return response()->json($data);
+        }
+    }
+
+    /**
+     * Top的JSON结构
+     *
+     * @return array
+     */
+    public function JSON() {
+        return [
+            'message' => '',
+            'statu' => 100,
+            'type' => '',
+            'result' => [
+                'count' => 0,
+                'query_time' => time(),
+                'data' => []
+            ]
+        ];
     }
 }

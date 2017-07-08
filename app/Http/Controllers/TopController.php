@@ -13,8 +13,7 @@ class TopController extends Controller
     public function new()
     {
         //return '最新生成短链接';
-        $new = TopNew::orderBy('id', 'desc')->take(10)->get();
-        return view('top.new', ['data' => $new]);
+        return view('top.new');
     }
 
     public function click()
