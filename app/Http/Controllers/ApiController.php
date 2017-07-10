@@ -21,15 +21,7 @@ class ApiController extends Controller
     public function produce(Request $request)
     {
         // 构造回调json
-        $response = [
-            'data' => [
-                'uesr' => '',
-                'uri' => '',
-                'created_at' => ''
-            ],
-            'statu' => 100,
-            'message' => ''
-        ];
+        $response = $this->JSON();
 
         if ($request->isMethod('POST')) {
             $uri = $request->get('uri');
@@ -42,8 +34,9 @@ class ApiController extends Controller
                 Show::find($link[0]->id)->increment('produce');  // 创建+1
                 $response['statu'] = 200;
                 $response['message'] = 'hash exist';
-                $response['data']['created_at'] = $link[0]->created_at;
-                $response['data']['uri'] = Util::getHost() . $hash;
+                $response['result']['count'] = 1;
+                $response['result']['data']['created_at'] = $link[0]->created_at;
+                $response['result']['data']['uri'] = Util::getHost() . $hash;
                 return response()->json($response);
             }
 
@@ -75,19 +68,20 @@ class ApiController extends Controller
                 // 添加至最新排行表
                 $data = ['link_id' => $row->id, 'title' => $title];
                 TopNew::create($data);
-
-                $response['data']['uri'] = $hash;
+                $response['result']['count'] = 1;
+                $response['result']['data']['uri'] = $hash;
                 $response['statu'] = 200;
                 $response['message'] = 'success';
-                $response['data']['created_at'] = $row->created_at;
+
+                $response['result']['data']['created_at'] = $row->created_at;
                 return response()->json($response);
             } else {
-                $response['data']['uri'] = Util::getHost();
+                $response['result']['data']['uri'] = Util::getHost();
                 $response['message'] = 'error';
                 return response()->json($response);
             }
         } else {
-            $response['data']['uri'] = Util::getHost();
+            $response['result']['data']['uri'] = Util::getHost();
             return response()->json($response);
         }
     }
@@ -184,12 +178,13 @@ class ApiController extends Controller
      *
      * @return array
      */
-    public function JSON() {
+    private function JSON() {
         return [
             'message' => '',
             'statu' => 100,
             'type' => '',
             'result' => [
+                'user' => '',
                 'count' => 0,
                 'query_time' => time(),
                 'data' => []
