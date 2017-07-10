@@ -34,6 +34,7 @@ class ApiController extends Controller
                 Show::find($link[0]->id)->increment('produce');  // 创建+1
                 $response['statu'] = 200;
                 $response['message'] = 'hash exist';
+                $response['type'] = 'produce';
                 $response['result']['count'] = 1;
                 $response['result']['data']['created_at'] = $link[0]->created_at;
                 $response['result']['data']['uri'] = Util::getHost() . $hash;
@@ -68,11 +69,11 @@ class ApiController extends Controller
                 // 添加至最新排行表
                 $data = ['link_id' => $row->id, 'title' => $title];
                 TopNew::create($data);
-                $response['result']['count'] = 1;
-                $response['result']['data']['uri'] = $hash;
                 $response['statu'] = 200;
                 $response['message'] = 'success';
-
+                $response['type'] = 'produce';
+                $response['result']['count'] = 1;
+                $response['result']['data']['uri'] = $hash;
                 $response['result']['data']['created_at'] = $row->created_at;
                 return response()->json($response);
             } else {

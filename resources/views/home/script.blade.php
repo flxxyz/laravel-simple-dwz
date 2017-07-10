@@ -26,7 +26,7 @@
             var data = $('form').serialize();
             $.post('{{ url('api/produce') }}', data, function (result) {
                 //console.log(result);
-                var data = result.data;
+                var data = result.result.data;
                 message(data.uri, true);
                 isRequest = false;
             })
