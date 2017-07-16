@@ -1,10 +1,9 @@
 function handle(res) {
     $.each(res.result.data, function (i, e) {
         var is_class = isClass(i);
-        if(res.type == 'new') {
-            var body = $('<div class="notification">').addClass(is_class).append($('<a></a>').attr('href', e.uri).text(e.title));
-        }else {
-            var body = $('<div class="notification">').addClass(is_class).append($('<a></a>').attr('href', e.uri).text(e.title), $('<span class="tag is-black"></span>').text(e.num + '次'));
+        var body = $('<div class="notification">').addClass(is_class).append($('<a></a>').attr({'href': e.uri, 'target': '_blank'}).text(e.title));
+        if(res.type !== 'new') {
+            body = $('<div class="notification">').addClass(is_class).append($('<a></a>').attr('href', e.uri).text(e.title), $('<span class="tag is-black"></span>').text(e.num + '次'));
         }
         $('#top').append(body);
     })
