@@ -4,6 +4,8 @@
 ### 介绍
 去年的暑假完成了这个简单的短网址程序，主要的缩短功能是ojbk的，我根据个人想法实现出排行榜机制，方便查看"点击"，"生成"，由于laravel框架的限制性，是对小白用户拒绝的，但是呢，有人问我了，那就把部署文档完整写出来，分享自己的小成果。
 
+有任何问题请提**Issues**，谢谢
+
 ### 特点
 - 基于laravel框架的健壮性与可扩展性
 - 排行榜机制
@@ -18,6 +20,7 @@
 1. 到[Releases](https://github.com/flxxyz/laravel-simple-dwz/releases)页面选择合适的版本，下载，解压
 
 2. 进入根目录，执行
+
    // 注意请在命令行界面操作
    ```bash
    cp .env.example .env
@@ -41,12 +44,24 @@
    chmod -R 777 storage
    ```
    
-3. 开始导入数据表
+3. 修改配置文件 `vi .env`或`nano .env`
+   ```
+   // 生产环境建议修改为false
+   APP_DEBUG=true
+   
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=你的数据库名称
+   DB_USERNAME=你的数据库用户名称
+   DB_PASSWORD=你的数据库用户密码
+   ```
+
+4. 开始导入数据表
    ```bash
    php artisan migrate --force
    ```
 
-4. 在**apache**或**nginx**的站点配置文件中，将 `public` 设置为根目录
+5. 在**apache**或**nginx**的站点配置文件中，将 `public` 设置为根目录
    
    **nginx的栗子**
    ```
@@ -64,8 +79,7 @@
    ```
    apache请自行对照nginx编写(其实感觉官方不推荐使用nginx)
    
-5. 可以启动站点访问了
-   
+6. 可以启动站点访问了
 
 ### 感谢
 [PHP.net](https://secure.php.net), [Laravel](https://laravel.com/), [bulma.io](https://bulma.io/), [jquery.com](http://jquery.com/)
